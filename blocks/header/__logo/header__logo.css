@@ -1,0 +1,29 @@
+.header__logo {
+  width: 142px;
+  height: 33px;
+  margin-bottom: 41px;
+}
+
+@media screen and (max-width: 934px) {
+  .header__logo {
+    margin-left: calc(0px + (27-0) * ((100vw - 934px) / (880 - 934)));
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .header__logo {
+    margin-left: 27px;
+    width: calc(104px + (142 - 104) * ((100vw - 320px) / (880 - 320)));
+    height: calc(24px + (33 - 24) * ((100vw - 320px) / (880 - 320)));
+    margin-bottom: calc(32px + (41 - 32) * ((100vw - 320px) / (880 - 320)));
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .header__logo {
+    width: 104px;
+    height: 24px;
+    margin-bottom: 32px;
+  }
+}
+

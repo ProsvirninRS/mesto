@@ -1,0 +1,28 @@
+.footer {
+  margin: 67px auto 0;
+  padding-bottom: 60px;
+  max-width: 880px;
+}
+
+@media screen and (max-width: 918px) {
+  .footer {
+    max-width: calc(282px + (880 - 282) * ((100vw - 320px) / (918 - 320)));
+    margin-left: 19px;
+    margin-right: 19px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .footer {
+    margin-top: calc(48px + (67 - 48) * ((100vw - 320px) / (880 - 320)));
+    padding-bottom: calc(36px + (60 - 36) * ((100vw - 320px) / (880 - 320)));
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .footer {
+    max-width: 282px;
+    margin-top: 48px;
+    padding-bottom: 36px;
+  }
+}

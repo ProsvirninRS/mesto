@@ -1,0 +1,23 @@
+.popup__form {
+  width: 430px;
+  height: 330px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  grid-column-start: 1;
+  grid-row-start: 2;
+  display: grid;
+  grid-template-columns: 358px;
+  grid-template-rows: 67px 81px 57px 98px;
+  justify-content: center;
+  align-items: end;
+}
+
+@media screen and (max-width: 580px) {
+  .popup__form {
+    width: 282px;
+    height: 322px;
+    grid-template-columns: 238px;
+    grid-template-rows: 47px 102px 57px 91px;
+  }
+}
