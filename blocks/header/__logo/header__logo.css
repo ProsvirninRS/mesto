@@ -6,7 +6,7 @@
 
 @media screen and (max-width: 934px) {
   .header__logo {
-    margin-left: calc(0px + (27-0) * ((100vw - 934px) / (880 - 934)));
+    margin-left: calc(0px + (27 - 0) * ((100vw - 934px) / (880 - 934)));
   }
 }
 

@@ -10,7 +10,7 @@
   cursor: pointer;
   grid-column-start: 2;
   grid-row-start: 1;
-  transition: opacity 0.3s ease ;
+  transition: opacity 0.3s ease;
 }
 
 .popup__close-button:hover {
