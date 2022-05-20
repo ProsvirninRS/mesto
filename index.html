@@ -14,11 +14,11 @@
     <main class="main">
       <div class="popup">
         <div class="popup__container">
-          <div class="popup__close-button"></div>
-          <form class="popup__form">
-            <p class="popup__title">Редактировать профиль</p>
-            <input class="popup__name" type="text">
-            <input class="popup__description" type="text">
+          <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
+          <form class="popup__form" name="form">
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <input class="popup__input popup__input_data_name" type="text" name="name">
+            <input class="popup__input popup__input_data_description" type="text" name="description">
             <button class="popup__save-button" type="submit">Сохранить</button>
           </form>
         </div>
@@ -28,61 +28,61 @@
         <div class="profile__info">
           <div class="profile__name-edit-wrapper">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <button class="profile__edit-button"></button>
+            <button class="profile__edit-button" type="button" aria-label="кнопка редактировать профиль"></button>
           </div>
           <p class="profile__description">Исследователь океана</p>
         </div>
-        <button class="profile__add-button"></button>
+        <button class="profile__add-button" type="button" aria-label="кнопка добавить профиль"></button>
       </section>
       <section class="elements">
-        <div class="element">
+        <article class="element">
           <img class="element__photo" src="./images/photo-grid-karach.jpg" alt="фото церкви">
           <div class="element__title-like-wrapper">
             <h2 class="element__title">Карачаевск</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button" aria-label="кнопка лайк"></button>
           </div>
-        </div>
-        <div class="element">
+        </article>
+        <article class="element">
           <img class="element__photo" src="./images/photo-grid-elbrus.jpg" alt="фото Эльбрус">
           <div class="element__title-like-wrapper">
             <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button" aria-label="кнопка лайк"></button>
           </div>
-        </div>
-        <div class="element">
+        </article>
+        <article class="element">
           <img class="element__photo" src="./images/photo-grid-dombay.jpg" alt="фото Домбай">
           <div class="element__title-like-wrapper">
             <h2 class="element__title">Домбай</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button" aria-label="кнопка лайк"></button>
           </div>
-        </div>
-        <div class="element">
+        </article>
+        <article class="element">
           <img class="element__photo" src="./images/photo-grid-elbrus.jpg" alt="фото Эльбрус">
           <div class="element__title-like-wrapper">
             <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button" aria-label="кнопка лайк"></button>
           </div>
-        </div>
-        <div class="element">
+        </article>
+        <article class="element">
           <img class="element__photo" src="./images/photo-grid-dombay.jpg" alt="фото Домбай">
           <div class="element__title-like-wrapper">
             <h2 class="element__title">Домбай</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button" aria-label="кнопка лайк"></button>
           </div>
-        </div>
-        <div class="element">
+        </article>
+        <article class="element">
           <img class="element__photo" src="./images/photo-grid-karach.jpg" alt="фото церкви">
           <div class="element__title-like-wrapper">
             <h2 class="element__title">Карачаево-Черкесия</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button" aria-label="кнопка лайк"></button>
           </div>
-        </div>
+        </article>
       </section>
     </main>
       <footer class="footer">
         <p class="footer__copyright">© 2022 Mesto Russia</p>
       </footer>
   </div>
-<script src="./pages/script.js"></script>
+<script src="./scripts/script.js"></script>
 </body>
 </html>

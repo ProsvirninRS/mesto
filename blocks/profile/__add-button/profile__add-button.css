@@ -1,6 +1,6 @@
 .profile__add-button {
   background-image: url(../../../images/add-button.svg);
-  background-color: black;
+  background-color: transparent;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 22px 22px;
@@ -13,7 +13,7 @@
   transition: opacity 0.3s ease;
 }
 
-.popup__close-button:hover {
+.profile__add-button:hover {
   opacity: .6;
 }
 

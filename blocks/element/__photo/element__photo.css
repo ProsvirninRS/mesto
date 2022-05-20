@@ -1,4 +1,6 @@
 .element__photo {
   border-radius: 10px 10px 0px 0px;
   background: #C4C4C4;
+  width: 282px;
+  height: 282px;
 }
