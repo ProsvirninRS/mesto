@@ -5,6 +5,8 @@
   position:fixed;
   top:0px;
   left: 0px;
-  display: none;
-  z-index: 2;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .5s linear, visibility .5s linear;
 }

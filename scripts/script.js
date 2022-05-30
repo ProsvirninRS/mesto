@@ -25,79 +25,139 @@ const initialCards = [
   }
 ];
 
-function renderList(data) {
-  data.forEach(item => renderItem())
-  }
+const buttonOpenEditProfile = document.querySelector('.profile__edit-button');  //кнопка редактировать
+const buttonAddLocation = document.querySelector('.profile__add-button');       //кнопка добавить локацию
+const buttonClosePopup = document.querySelector('.popup__close-button');        //кнопка закрыть попап
+const profileName = document.querySelector('.profile__name');                   //профиль имя
+const profileDescription = document.querySelector('.profile__description');     //профиль описание
+const inputPopupNameProfile = document.querySelector('.popup__input_name_name');//попап ввод имя профиль
+const inputPopupDecriptionProfile = document.querySelector('.popup__input_name_description');//попап ввод описание профиль
+const locationContainer = document.querySelector('.elements');                  //контейнер для локаций
+const inputPopupTitleLocation = document.querySelector('.popup__input_name_title');//попап ввод название локации
+const inputPopupUrlLocation = document.querySelector('.popup__input_name_url'); //попап ввод URL локации
 
-function renderItem(text) {
+//функция закрытия попапа
+function closePopup() {
+  ThisPopup = document.querySelector('.popup_opened');
+  ThisPopup.classList.remove('popup_opened');
+}
 
+//функция лайка
+function likeListItem(event) {
+  let buttonElement = event.target;
+  buttonElement.classList.toggle('element__like_active');
+}
+
+//функция удаления локации
+function removeListItem(event) {
+  let buttonElement = event.target;
+  let listItemElement = buttonElement.closest(".element");
+  listItemElement.remove();
+}
+
+//функция открытия большой картинки
+function openPopupBigImg(event) {
+  const popupBigImg = document.querySelector('.popup_type_big-img');//попап большая картинка
+  popupBigImg.classList.add('popup_opened');
+  let imgElement = event.target;
+  let titleWrapper = imgElement.nextElementSibling;
+  let titleElement = titleWrapper.querySelector('.element__title');
+  let popupImg = document.querySelector('.popup__image');
+  let popupCaption = document.querySelector('.popup__caption');
+  popupImg.src = imgElement.src;
+  popupImg.alt = imgElement.alt;
+  popupCaption.textContent = titleElement.textContent;
+  closePopupListener(popupBigImg);
+}
+
+//функция сохранения попапа редактирования
+function submitFormEditPopup (event) {
+  event.preventDefault();
+  profileName.textContent = inputPopupNameProfile.value;
+  profileDescription.textContent = inputPopupDecriptionProfile.value;
+  console.log(profileDescription.textContent);
+  closePopup();
+}
+
+//функция сохранения попапа новой локации
+function submitFormNewLocationPopup (event) {
+  event.preventDefault();
+  const elementTemplate = document.querySelector('#element-template').content; //присвоили содержимое template
+  const cloneElement = elementTemplate.querySelector('.element').cloneNode(true); //клонировали содержимое template
+  cloneElement.querySelector('.element__title').textContent = inputPopupTitleLocation.value;
+  cloneElement.querySelector('.element__photo').src = inputPopupUrlLocation.value; //наполнили содержимым массива
+  cloneElement.querySelector('.element__photo').alt = inputPopupTitleLocation.value;
+  templateListeners (cloneElement);
+  locationContainer.prepend(cloneElement); //вставили содержимое в начале контейнера
+  closePopup();
+}
+
+//функция добавления элеметов из массива
+function renderItem (item) {
+  const elementTemplate = document.querySelector('#element-template').content; //присвоили содержимое template
+  const cloneElement = elementTemplate.querySelector('.element').cloneNode(true); //клонировали содержимое template
+  cloneElement.querySelector('.element__title').textContent = item.name;
+  cloneElement.querySelector('.element__photo').src = item.link; //наполнили содержимым массива
+  cloneElement.querySelector('.element__photo').alt = item.name;
+  templateListeners (cloneElement);
+  locationContainer.append(cloneElement); //вставили содержимое в конце контейнера
+}
+
+//функция перебора массива
+function renderList(array) {
+  array.forEach(function(item) {
+    renderItem(item);
+  });
+}
+
+//слушатель кнопки редактировать
+//функция открытия попапа редактирования
+buttonOpenEditProfile.addEventListener('click', function () {
+  const popupEditProfile = document.querySelector('.popup_type_edit');//попап редактировать
+  popupEditProfile.classList.add('popup_opened');
+  inputPopupNameProfile.value = profileName.textContent;
+  inputPopupDecriptionProfile.value = profileDescription.textContent;
+  submitEditPopupListener();
+  closePopupListener(popupEditProfile);
+});
+
+//слушатель кнопки добавить локацию
+//функция открытия попапа новая локация
+buttonAddLocation.addEventListener('click', function () {
+  const popupNewLocation = document.querySelector('.popup_type_new-location');//попап новая локация
+  popupNewLocation.classList.add('popup_opened');
+  inputPopupTitleLocation.value = '';
+  inputPopupUrlLocation.value = '';
+  submitNewLocationPopupListener();
+  closePopupListener(popupNewLocation);
+});
+
+//слушатель закрытия попапа
+function closePopupListener(popup) {
+  let thisPopupCloseBotton = popup.querySelector(".popup__close-button");
+  thisPopupCloseBotton.addEventListener("click", closePopup);
+}
+
+//слушатель кнопки сохранения попапа редактирования
+function submitEditPopupListener () {
+  const formEditPopup = document.querySelector('.popup__form_type_edit');//форма попапа редактирования
+  formEditPopup.addEventListener('submit', submitFormEditPopup);
+}
+
+//слушатели для всех элементов template
+function templateListeners (cloneElement) {
+  let likeButtonElement = cloneElement.querySelector(".element__like");
+  likeButtonElement.addEventListener("click", likeListItem);
+  let removeButtonElement = cloneElement.querySelector(".element__del");
+  removeButtonElement.addEventListener("click", removeListItem);
+  let openBigImgElement = cloneElement.querySelector(".element__photo");
+  openBigImgElement.addEventListener("click", openPopupBigImg);
+}
+
+//слушатель кнопки сохранения попапа новой локации
+function submitNewLocationPopupListener () {
+  const formNewLocationPopup = document.querySelector('.popup__form_type_new-location');//форма попапа новой локации
+  formNewLocationPopup.addEventListener('submit', submitFormNewLocationPopup);
 }
 
 renderList(initialCards);
-
-
-// let buttonEdit = document.querySelector('.profile__edit-button');                //кнопка редактировать
-// let popupEdit = document.querySelector('.popup__type_edit');                     //попап редактировать
-// let formElement = document.querySelector('.popup__form');                        //форма попап редактировать
-// let closeButton = document.querySelector('.popup__close-button');                //форма попап кнопка закрыть
-// let profileName = document.querySelector('.profile__name');                      //профиль имя
-// let profileDescription = document.querySelector('.profile__description');        //профиль описание
-// let inputNameProfile = document.querySelector('.popup__input_profile_name');     //попап ввод имя профиль
-// let inputDecriptionProfile = document.querySelector('.popup__input_profile_description');//попап ввод описание профиль
-// let elements = document.querySelector('.elements');
-// let popupNewLocation = document.querySelector('.popup__type_new-location');//попап новая локация
-// let popupBigImg = document.querySelector('.popup__type_big-img');          //попап большая картинка
-// let buttonAddLocation = document.querySelector('.profile__add-button');    //кнопка добавить локацию
-// let inputLocationTitle = document.querySelector('.popup__input_location_title'); //попап ввод название локации
-// let inputLocationUrl = document.querySelector('.popup__input_location_url');     //попап ввод URL локации
-
-// //слушатель кнопки редактировать
-// //функция открытия попапа редактирования
-// buttonEdit.addEventListener('click', function () {
-//   popupEdit.classList.add('popup_opened');
-//   inputNameProfile.value = profileName.textContent;
-//   inputDecriptionProfile.value = profileDescription.textContent;
-// });
-
-// //слушатель кнопки добавить локацию
-// //функция открытия попапа новая локация
-// buttonAddLocation.addEventListener('click', function () {
-//   popupNewLocation.classList.add('popup_opened');
-//   inputLocationTitle.value = '';
-//   inputLocationUrl.value = '';
-// });
-
-// //функция закрытия попапа редактирования
-// function closePopup () {
-//   popupEdit.classList.remove('popup_opened');
-// }
-
-// //слушатель кнопки закрытия попапа редактирования
-// closeButton.addEventListener('click', closePopup);
-
-// //функция сохранения попапа редактирования
-// function formSubmitHandler (evt) {
-//   evt.preventDefault();
-//   profileName.textContent = inputNameProfile.value;
-//   profileDescription.textContent = inputDecriptionProfile.value;
-//   closePopup ();
-// }
-// //слушатель кнопки сохранения попапа редактирования
-// formElement.addEventListener('submit', formSubmitHandler);
-
-// //функция добавления элеметов из массива
-// function addElement (nameCard, linkCard) {
-//   let elementTemplate = document.querySelector('#element-template').content; //присвоили содержимое template
-//   const cloneElement = elementTemplate.querySelector('.element').cloneNode(true); //клонировали содержимое template
-
-//   cloneElement.querySelector('.element__title').textContent = nameCard;
-//   cloneElement.querySelector('.element__photo').src = linkCard; //наполнили содержимым массива
-//   cloneElement.querySelector('.element__photo').alt = nameCard;
-
-//   elements.append(cloneElement); //вставили содержимое в конце контейнера
-// }
-
-// цикл обработки массива
-// for (var i = 0; i < initialCards.length; i++) {
-//   addElement (initialCards[i].name, initialCards[i].link);
-// }

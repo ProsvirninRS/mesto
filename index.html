@@ -12,35 +12,6 @@
       <img class="header__logo" src="./images/header-logo.svg" alt="логотип Место">
     </header>
     <main class="main">
-      <div class="popup popup_type_edit">
-        <div class="popup__container">
-          <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
-          <form class="popup__form" name="edit-form">
-            <h2 class="popup__title">Редактировать профиль</h2>
-            <input class="popup__input popup__input_profile_name" type="text" name="name" placeholder="Имя" required>
-            <input class="popup__input popup__input_profile_description" type="text" name="description" placeholder="Описание" required>
-            <button class="popup__save-button" type="submit">Сохранить</button>
-          </form>
-        </div>
-      </div>
-      <div class="popup popup_type_new-location">
-        <div class="popup__container">
-          <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
-          <form class="popup__form" name="new-location-form">
-            <h2 class="popup__title">Новое место</h2>
-            <input class="popup__input popup__input_location_title" type="text" name="title" placeholder="Название" required>
-            <input class="popup__input popup__input_location_url" type="text" name="url" placeholder="Ссылка на картинку" required>
-            <button class="popup__save-button" type="submit">Сохранить</button>
-          </form>
-        </div>
-      </div>
-      <div class="popup popup_type_big-img">
-        <div class="popup__container">
-          <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
-            <img class="popup__image" src="" alt="">
-            <p class="popup__caption"></p>
-        </div>
-      </div>
       <section class="profile">
         <img class="profile__avatar" src="./images/photo-kusto.jpg" alt="портрет Кусто">
         <div class="profile__info">
@@ -55,9 +26,40 @@
       <section class="elements">
       </section>
     </main>
-      <footer class="footer">
-        <p class="footer__copyright">© 2022 Mesto Russia</p>
-      </footer>
+    <footer class="footer">
+      <p class="footer__copyright">© 2022 Mesto Russia</p>
+    </footer>
+      <div class="popup popup_type_edit">
+        <div class="popup__container">
+          <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
+          <form class="popup__form popup__form_type_edit" name="edit-form">
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <input class="popup__input popup__input_name_name" type="text" name="name" placeholder="Имя" required>
+            <input class="popup__input popup__input_name_description" type="text" name="description" placeholder="Описание" required>
+            <button class="popup__save-button" type="submit">Сохранить</button>
+          </form>
+        </div>
+      </div>
+      <div class="popup popup_type_new-location">
+        <div class="popup__container">
+          <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
+          <form class="popup__form popup__form_type_new-location" name="new-location-form">
+            <h2 class="popup__title">Новое место</h2>
+            <input class="popup__input popup__input_name_title" type="text" name="title" placeholder="Название" required>
+            <input class="popup__input popup__input_name_url" type="text" name="url" placeholder="Ссылка на картинку" required>
+            <button class="popup__save-button" type="submit">Создать</button>
+          </form>
+        </div>
+      </div>
+      <div class="popup popup_type_big-img">
+        <div class="popup__content-image">
+          <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
+            <figure class="popup__figure">
+              <img class="popup__image" src="" alt="">
+              <figcaption class="popup__caption"></figcaption>
+            </figure>
+        </div>
+      </div>
   </div>
   <template id="element-template">
     <article class="element">
@@ -66,6 +68,7 @@
         <h2 class="element__title"></h2>
         <button class="element__like" type="button" aria-label="кнопка лайк"></button>
       </div>
+      <button class="element__del" type="button" aria-label="кнопка удалить"></button>
     </article>
   </template>
 <script src="./scripts/script.js"></script>
