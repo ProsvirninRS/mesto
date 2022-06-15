@@ -7,15 +7,15 @@
   grid-row-start: 2;
   display: grid;
   grid-template-columns: 358px;
-  grid-template-rows: 67px 81px 57px 98px;
+  grid-template-rows: 111px 27px minmax(32px, max-content) 27px minmax(32px, max-content) 101px;
   justify-content: center;
-  align-items: end;
+  cursor: default;
 }
 
 @media screen and (max-width: 580px) {
   .popup__form {
     width: 282px;
     grid-template-columns: 238px;
-    grid-template-rows: 47px 102px 57px 91px;
+    grid-template-rows: 122px 27px minmax(32px, max-content) 27px minmax(32px, max-content) 82px;
   }
 }

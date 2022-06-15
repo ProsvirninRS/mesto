@@ -18,16 +18,30 @@ const bottonCloseBigImgPopup = popupBigImg.querySelector('.popup__close-button')
 const template = document.querySelector('#element-template');                    //template
 const popupImg = document.querySelector('.popup__image');                        //картинка с попапа с большой картинкой
 const popupCaption = document.querySelector('.popup__caption');                  //подпиьсь на попапе с большой картинкой
+const arrayAllPopup = document.querySelectorAll('.popup');                       //массив всех попапов
 
 //функция открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', handleEscClosePopup);
 }
 
 //функция закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', handleEscClosePopup);
 }
+
+//функция закрытия попапов по Escape
+function handleEscClosePopup(evt) {
+  if (evt.key === 'Escape') {
+    arrayAllPopup.forEach(popup => {
+      if(popup.classList.contains('popup_opened')) {
+        closePopup(popup);
+      };
+    });
+  };
+};
 
 //функция лайка
 function likeListItem(event) {
@@ -64,12 +78,12 @@ function cloneTemplate(container) {
 
 // функция создания начальных карточек
 function renderItem (object) {
-  const newCard = addLocation (object);
+  const newCard = createLocation (object);
   locationContainer.append(newCard); //вставили содержимое в конце контейнера
 }
 
 //функция добавления данных карточки в template
-function addLocation (object) {
+function createLocation (object) {
   const newCard = cloneTemplate(template); //клонировали содержимое template
   newCard.querySelector('.element__title').textContent = object.name;
   const photoElement = newCard.querySelector('.element__photo');
@@ -83,10 +97,10 @@ function addLocation (object) {
 function submitFormNewLocationPopup (event) {
   event.preventDefault();
   const newLocationInfo = {
-    name: `${inputPopupTitleLocation.value}`,
-    link: `${inputPopupUrlLocation.value}`
+    name: inputPopupTitleLocation.value,
+    link: inputPopupUrlLocation.value
   }
-  const addedLocation = addLocation (newLocationInfo);
+  const addedLocation = createLocation (newLocationInfo);
   locationContainer.prepend(addedLocation); //вставили содержимое в начале контейнера
   closePopup(popupNewLocation);
 }
@@ -103,6 +117,7 @@ function renderList(array) {
 buttonOpenEditPopup.addEventListener('click', function () {
   inputPopupNameProfile.value = profileName.textContent;
   inputPopupDecriptionProfile.value = profileDescription.textContent;
+  resetPopupValidity (formEditPopup, formConfig);
   openPopup(popupEditProfile);
 });
 
@@ -111,6 +126,7 @@ buttonOpenEditPopup.addEventListener('click', function () {
 buttonAddLocation.addEventListener('click', function () {
   inputPopupTitleLocation.value = '';
   inputPopupUrlLocation.value = '';
+  resetPopupValidity (formNewLocationPopup, formConfig);
   openPopup(popupNewLocation);
 });
 
@@ -126,11 +142,21 @@ function setTemplateListeners (element) {
     const titleElement = imgElement.nextElementSibling.querySelector('.element__title');
     openPopupBigImg(titleElement, imgElement);
   });
-}
+};
 
 renderList(initialCards);
 formNewLocationPopup.addEventListener('submit', submitFormNewLocationPopup);//слушатель кнопки сохранения попапа новой локации
 formEditPopup.addEventListener('submit', submitFormEditPopup);//слушатель кнопки сохранения попапа редактирования
-bottonCloseEditPopup.addEventListener("click", () => closePopup(popupEditProfile));//слушатель закрытия попапа редактирования
+bottonCloseEditPopup.addEventListener("click", () =>closePopup(popupEditProfile));//слушатель закрытия попапа редактирования
 bottonCloseAddLocationPopup.addEventListener("click", () => closePopup(popupNewLocation));//слушатель закрытия попапа новой локации
 bottonCloseBigImgPopup.addEventListener("click", () => closePopup(popupBigImg));//слушатель закрытия попапа большой картинки
+
+
+//закрытие попапов при клике по оверлэй
+arrayAllPopup.forEach(popup => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target === evt.currentTarget) {
+     closePopup(evt.target);
+    };
+  });
+});
