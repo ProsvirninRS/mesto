@@ -109,7 +109,7 @@ function renderList(array) {
 
 //слушатель кнопки редактировать
 //функция открытия попапа редактирования
-buttonOpenEditPopup.addEventListener('mousedown', function () {
+buttonOpenEditPopup.addEventListener('click', function () {
   inputPopupNameProfile.value = profileName.textContent;
   inputPopupDecriptionProfile.value = profileDescription.textContent;
   resetFormValidation (formEditPopup, formConfig);
@@ -118,7 +118,7 @@ buttonOpenEditPopup.addEventListener('mousedown', function () {
 
 //слушатель кнопки добавить локацию
 //функция открытия попапа новая локация
-buttonAddLocation.addEventListener('mousedown', function () {
+buttonAddLocation.addEventListener('click', function () {
   formNewLocationPopup.reset();
   resetFormValidation (formNewLocationPopup, formConfig);
   openPopup(popupNewLocation);
@@ -127,11 +127,11 @@ buttonAddLocation.addEventListener('mousedown', function () {
 //слушатели для всех элементов template
 function setTemplateListeners (element) {
   const likeButtonElement = element.querySelector(".element__like");
-  likeButtonElement.addEventListener("mousedown", likeListItem);
+  likeButtonElement.addEventListener("click", likeListItem);
   const removeButtonElement = element.querySelector(".element__del");
-  removeButtonElement.addEventListener("mousedown", removeListItem);
+  removeButtonElement.addEventListener("click", removeListItem);
   const openBigImgElement = element.querySelector(".element__photo");
-  openBigImgElement.addEventListener("mousedown", (event) => {
+  openBigImgElement.addEventListener("click", (event) => {
     const imgElement = event.target;
     const titleElement = imgElement.nextElementSibling.querySelector('.element__title');
     openPopupBigImg(titleElement, imgElement);
