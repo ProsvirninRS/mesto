@@ -1,4 +1,4 @@
-const resetPopupValidity = (formElement, formConfig) => {
+const resetFormValidation = (formElement, formConfig) => {
   const inputList = Array.from(formElement.querySelectorAll(formConfig.inputSelector));
   const buttonElement = formElement.querySelector(formConfig.submitButtonSelector);
   inputList.forEach((inputElement) => {

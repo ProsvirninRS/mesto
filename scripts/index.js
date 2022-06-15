@@ -12,13 +12,10 @@ const formEditPopup = document.querySelector('.popup__form_type_edit');         
 const popupNewLocation = document.querySelector('.popup_type_new-location');    //попап новая локация
 const popupEditProfile = document.querySelector('.popup_type_edit');            //попап редактировать
 const popupBigImg = document.querySelector('.popup_type_big-img');              //попап большая картинка
-const bottonCloseEditPopup = popupEditProfile.querySelector('.popup__close-button');//кнопка закрыть попап редактирования
-const bottonCloseAddLocationPopup = popupNewLocation.querySelector('.popup__close-button');//кнопка закрыть попап новой локации
-const bottonCloseBigImgPopup = popupBigImg.querySelector('.popup__close-button');//кнопка закрыть попап большой картинки
 const template = document.querySelector('#element-template');                    //template
 const popupImg = document.querySelector('.popup__image');                        //картинка с попапа с большой картинкой
 const popupCaption = document.querySelector('.popup__caption');                  //подпиьсь на попапе с большой картинкой
-const arrayAllPopup = document.querySelectorAll('.popup');                       //массив всех попапов
+const allPopups = document.querySelectorAll('.popup');                           //массив всех попапов
 
 //функция открытия попапа
 function openPopup(popup) {
@@ -35,7 +32,7 @@ function closePopup(popup) {
 //функция закрытия попапов по Escape
 function handleEscClosePopup(evt) {
   if (evt.key === 'Escape') {
-    arrayAllPopup.forEach(popup => {
+    allPopups.forEach(popup => {
       if(popup.classList.contains('popup_opened')) {
         closePopup(popup);
       };
@@ -107,37 +104,34 @@ function submitFormNewLocationPopup (event) {
 
 //функция перебора массива
 function renderList(array) {
-  array.forEach(function(object) {
-    renderItem(object);
-  });
-}
+  array.forEach(renderItem);
+  };
 
 //слушатель кнопки редактировать
 //функция открытия попапа редактирования
-buttonOpenEditPopup.addEventListener('click', function () {
+buttonOpenEditPopup.addEventListener('mousedown', function () {
   inputPopupNameProfile.value = profileName.textContent;
   inputPopupDecriptionProfile.value = profileDescription.textContent;
-  resetPopupValidity (formEditPopup, formConfig);
+  resetFormValidation (formEditPopup, formConfig);
   openPopup(popupEditProfile);
 });
 
 //слушатель кнопки добавить локацию
 //функция открытия попапа новая локация
-buttonAddLocation.addEventListener('click', function () {
-  inputPopupTitleLocation.value = '';
-  inputPopupUrlLocation.value = '';
-  resetPopupValidity (formNewLocationPopup, formConfig);
+buttonAddLocation.addEventListener('mousedown', function () {
+  formNewLocationPopup.reset();
+  resetFormValidation (formNewLocationPopup, formConfig);
   openPopup(popupNewLocation);
 });
 
 //слушатели для всех элементов template
 function setTemplateListeners (element) {
   const likeButtonElement = element.querySelector(".element__like");
-  likeButtonElement.addEventListener("click", likeListItem);
+  likeButtonElement.addEventListener("mousedown", likeListItem);
   const removeButtonElement = element.querySelector(".element__del");
-  removeButtonElement.addEventListener("click", removeListItem);
+  removeButtonElement.addEventListener("mousedown", removeListItem);
   const openBigImgElement = element.querySelector(".element__photo");
-  openBigImgElement.addEventListener("click", (event) => {
+  openBigImgElement.addEventListener("mousedown", (event) => {
     const imgElement = event.target;
     const titleElement = imgElement.nextElementSibling.querySelector('.element__title');
     openPopupBigImg(titleElement, imgElement);
@@ -147,16 +141,15 @@ function setTemplateListeners (element) {
 renderList(initialCards);
 formNewLocationPopup.addEventListener('submit', submitFormNewLocationPopup);//слушатель кнопки сохранения попапа новой локации
 formEditPopup.addEventListener('submit', submitFormEditPopup);//слушатель кнопки сохранения попапа редактирования
-bottonCloseEditPopup.addEventListener("click", () =>closePopup(popupEditProfile));//слушатель закрытия попапа редактирования
-bottonCloseAddLocationPopup.addEventListener("click", () => closePopup(popupNewLocation));//слушатель закрытия попапа новой локации
-bottonCloseBigImgPopup.addEventListener("click", () => closePopup(popupBigImg));//слушатель закрытия попапа большой картинки
 
-
-//закрытие попапов при клике по оверлэй
-arrayAllPopup.forEach(popup => {
-  popup.addEventListener('click', (evt) => {
-    if (evt.target === evt.currentTarget) {
-     closePopup(evt.target);
-    };
-  });
+//закрытие попапов при клике по оверлэй или крестику
+allPopups.forEach((popup) => {
+    popup.addEventListener('mousedown', (evt) => {
+        if (evt.target === evt.currentTarget) {
+          closePopup(evt.target);
+        };
+        if (evt.target.classList.contains('popup__close-button')) {
+          closePopup(popup)
+        };
+    });
 });
