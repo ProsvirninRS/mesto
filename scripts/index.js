@@ -43,6 +43,13 @@ function handleEscClosePopup(evt) {
   };
 };
 
+// создать новую карточку
+function createCard(item) {
+  const newCard = new Card(item, '#element-template', handleOpenViewPopup);
+  const cardElement = newCard.generateCard();
+  return cardElement
+}
+
 //функция сохранения попапа редактирования
 function submitFormEditPopup (event) {
   event.preventDefault();
@@ -58,9 +65,7 @@ function submitFormNewLocationPopup (event) {
     name: inputPopupTitleLocation.value,
     link: inputPopupUrlLocation.value
   }
-  const newCard = new Card(newLocationInfo, '#element-template', handleOpenViewPopup);
-  const cardElement = newCard.generateCard();
-  locationContainer.prepend(cardElement); //вставили содержимое в начале контейнера
+  locationContainer.prepend(createCard(newLocationInfo)); //вставили содержимое в начале контейнера
   closePopup(popupNewLocation);
 }
 
@@ -69,8 +74,6 @@ function submitFormNewLocationPopup (event) {
 buttonOpenEditPopup.addEventListener('click', function () {
   inputPopupNameProfile.value = profileName.textContent;
   inputPopupDecriptionProfile.value = profileDescription.textContent;
-  const formEditValid = new FormValidator(formConfig, formEditPopup);
-  formEditValid.enableValidation();
   formEditValid.resetFormValidation();
   openPopup(popupEditProfile);
 });
@@ -79,8 +82,6 @@ buttonOpenEditPopup.addEventListener('click', function () {
 //функция открытия попапа новая локация
 buttonAddLocation.addEventListener('click', function () {
   formNewLocationPopup.reset();
-  const formNewLocationValid = new FormValidator(formConfig, formNewLocationPopup);
-  formNewLocationValid.enableValidation();
   formNewLocationValid.resetFormValidation();
   openPopup(popupNewLocation);
 });
@@ -110,7 +111,13 @@ allPopups.forEach((popup) => {
 
 // отрисовка начальных карточек
 initialCards.forEach((item) => {
-  const newCard = new Card(item, '#element-template', handleOpenViewPopup);
-  const cardElement = newCard.generateCard();
-  locationContainer.append(cardElement);
+  locationContainer.append(createCard(item));
 });
+
+// валидация для формы редактирования
+const formEditValid = new FormValidator(formConfig, formEditPopup);
+formEditValid.enableValidation();
+
+// валидация для формы добавления новой карточки
+const formNewLocationValid = new FormValidator(formConfig, formNewLocationPopup);
+formNewLocationValid.enableValidation();

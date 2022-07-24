@@ -32,27 +32,29 @@ class Card {
   };
 
   _setEventListeners() {
-    this._element.querySelector('.element__like').addEventListener('click', () => {
+    this._like.addEventListener('click', () => {
       this._likeListItem();
     });
-    this._element.querySelector('.element__del').addEventListener('click', () => {
+    this._del.addEventListener('click', () => {
       this._removeListItem();
     });
-    this._element.querySelector('.element__photo').addEventListener('click', () => {
+    this._photo.addEventListener('click', () => {
       this._handleImageClick();
     });
   }
 
   generateCard() {
     this._element = this._getTemplate();
+
+    this._del = this._element.querySelector('.element__del');
     this._like = this._element.querySelector('.element__like');
+    this._photo = this._element.querySelector('.element__photo');
+    this._title = this._element.querySelector('.element__title');
+
     this._setEventListeners();
-
-    this._element.querySelector('.element__title').textContent = this._name;
-    const photoElement = this._element.querySelector('.element__photo');
-    photoElement.src = this._link;
-    photoElement.alt = this._name;
-
+    this._title.textContent = this._name;
+    this._photo.src = this._link;
+    this._photo.alt = this._name;
     return this._element;
   }
 };

@@ -8,6 +8,9 @@ class FormValidator {
     this._errorClass = formConfig.errorClass;
 
     this._formElement = formElement;
+
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    this._submitButton = this._formElement.querySelector(this._submitButtonSelector);
   }
 
   _showInputError (inputElement, errorMessage) {
@@ -32,9 +35,9 @@ class FormValidator {
     }
   };
 
-  _hasInvalidInput (inputList) {
+  _hasInvalidInput () {
     // проходим по этому массиву методом some
-    return inputList.some((inputElement) => {
+    return this._inputList.some((inputElement) => {
       // Если поле не валидно, колбэк вернёт true
       // Обход массива прекратится и вся функция
       // hasInvalidInput вернёт true
@@ -43,27 +46,25 @@ class FormValidator {
     });
   };
 
-  _toggleButtonState (inputList , buttonElement) {
+  _toggleButtonState () {
     // Если есть хотя бы один невалидный инпут
-    if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add(this._inactiveButtonClass);
-      buttonElement.setAttribute('disabled', true);
+    if (this._hasInvalidInput()) {
+      this._submitButton.classList.add(this._inactiveButtonClass);
+      this._submitButton.setAttribute('disabled', true);
     } else {
-      buttonElement.classList.remove(this._inactiveButtonClass);
-      buttonElement.removeAttribute('disabled');
+      this._submitButton.classList.remove(this._inactiveButtonClass);
+      this._submitButton.removeAttribute('disabled');
     };
   }
 
   _setEventListeners() {
-    const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
     // чтобы проверить состояние кнопки в самом начале
-    this._toggleButtonState(inputList , buttonElement);
-    inputList.forEach((inputElement) => {
+    this._toggleButtonState();
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
         // чтобы проверять его при изменении любого из полей
-        this._toggleButtonState(inputList , buttonElement);
+        this._toggleButtonState();
       });
     });
   }
@@ -76,11 +77,9 @@ class FormValidator {
   }
 
   resetFormValidation () {
-    const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       this._hideInputError (inputElement);
-      this._toggleButtonState (inputList, buttonElement);
+      this._toggleButtonState ();
     });
   };
 }
