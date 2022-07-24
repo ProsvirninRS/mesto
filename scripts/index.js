@@ -1,3 +1,7 @@
+import { initialCards } from './cards.js';
+import { Card } from './Card.js';
+import { FormValidator  , formConfig } from './FormValidator.js';
+
 const buttonOpenEditPopup = document.querySelector('.profile__edit-button');    //кнопка открыть попап редактировать
 const buttonAddLocation = document.querySelector('.profile__add-button');       //кнопка открыть попап новой локации
 const profileName = document.querySelector('.profile__name');                   //профиль имя
@@ -12,10 +16,9 @@ const formEditPopup = document.querySelector('.popup__form_type_edit');         
 const popupNewLocation = document.querySelector('.popup_type_new-location');    //попап новая локация
 const popupEditProfile = document.querySelector('.popup_type_edit');            //попап редактировать
 const popupBigImg = document.querySelector('.popup_type_big-img');              //попап большая картинка
-const template = document.querySelector('#element-template');                    //template
-const popupImg = document.querySelector('.popup__image');                        //картинка с попапа с большой картинкой
-const popupCaption = document.querySelector('.popup__caption');                  //подпиьсь на попапе с большой картинкой
-const allPopups = document.querySelectorAll('.popup');                           //массив всех попапов
+const popupImg = document.querySelector('.popup__image');                       //картинка с попапа с большой картинкой
+const popupCaption = document.querySelector('.popup__caption');                 //подпиьсь на попапе с большой картинкой
+const allPopups = document.querySelectorAll('.popup');                          //массив всех попапов
 
 //функция открытия попапа
 function openPopup(popup) {
@@ -40,54 +43,12 @@ function handleEscClosePopup(evt) {
   };
 };
 
-//функция лайка
-function likeListItem(event) {
-  event.target.classList.toggle('element__like_active');
-}
-
-//функция удаления локации
-function removeListItem(event) {
-  event.target.closest(".element").remove();
-}
-
-//функция открытия большой картинки
-function openPopupBigImg(titleElement, imgElement) {
-  popupImg.src = imgElement.src;
-  popupImg.alt = imgElement.alt;
-  popupCaption.textContent = titleElement.textContent;
-  openPopup(popupBigImg);
-}
-
 //функция сохранения попапа редактирования
 function submitFormEditPopup (event) {
   event.preventDefault();
   profileName.textContent = inputPopupNameProfile.value;
   profileDescription.textContent = inputPopupDecriptionProfile.value;
   closePopup(popupEditProfile);
-}
-
-// функция создания копии содержимого template
-function cloneTemplate(container) {
-  const templateContent = container.content;
-  const newTemplateContent = templateContent.cloneNode(true);
-  return newTemplateContent;
-}
-
-// функция создания начальных карточек
-function renderItem (object) {
-  const newCard = createLocation (object);
-  locationContainer.append(newCard); //вставили содержимое в конце контейнера
-}
-
-//функция добавления данных карточки в template
-function createLocation (object) {
-  const newCard = cloneTemplate(template); //клонировали содержимое template
-  newCard.querySelector('.element__title').textContent = object.name;
-  const photoElement = newCard.querySelector('.element__photo');
-  photoElement.src = object.link; //наполнили содержимым массива
-  photoElement.alt = object.name;
-  setTemplateListeners (newCard);
-  return newCard;
 }
 
 //функция сохранения попапа новой локации
@@ -97,22 +58,20 @@ function submitFormNewLocationPopup (event) {
     name: inputPopupTitleLocation.value,
     link: inputPopupUrlLocation.value
   }
-  const addedLocation = createLocation (newLocationInfo);
-  locationContainer.prepend(addedLocation); //вставили содержимое в начале контейнера
+  const newCard = new Card(newLocationInfo, '#element-template', handleOpenViewPopup);
+  const cardElement = newCard.generateCard();
+  locationContainer.prepend(cardElement); //вставили содержимое в начале контейнера
   closePopup(popupNewLocation);
 }
-
-//функция перебора массива
-function renderList(array) {
-  array.forEach(renderItem);
-  };
 
 //слушатель кнопки редактировать
 //функция открытия попапа редактирования
 buttonOpenEditPopup.addEventListener('click', function () {
   inputPopupNameProfile.value = profileName.textContent;
   inputPopupDecriptionProfile.value = profileDescription.textContent;
-  resetFormValidation (formEditPopup, formConfig);
+  const formEditValid = new FormValidator(formConfig, formEditPopup);
+  formEditValid.enableValidation();
+  formEditValid.resetFormValidation();
   openPopup(popupEditProfile);
 });
 
@@ -120,29 +79,24 @@ buttonOpenEditPopup.addEventListener('click', function () {
 //функция открытия попапа новая локация
 buttonAddLocation.addEventListener('click', function () {
   formNewLocationPopup.reset();
-  resetFormValidation (formNewLocationPopup, formConfig);
+  const formNewLocationValid = new FormValidator(formConfig, formNewLocationPopup);
+  formNewLocationValid.enableValidation();
+  formNewLocationValid.resetFormValidation();
   openPopup(popupNewLocation);
 });
 
-//слушатели для всех элементов template
-function setTemplateListeners (element) {
-  const likeButtonElement = element.querySelector(".element__like");
-  likeButtonElement.addEventListener("click", likeListItem);
-  const removeButtonElement = element.querySelector(".element__del");
-  removeButtonElement.addEventListener("click", removeListItem);
-  const openBigImgElement = element.querySelector(".element__photo");
-  openBigImgElement.addEventListener("click", (event) => {
-    const imgElement = event.target;
-    const titleElement = imgElement.nextElementSibling.querySelector('.element__title');
-    openPopupBigImg(titleElement, imgElement);
-  });
-};
+//открытие большой картинки
+const handleOpenViewPopup = ({ name, link }) => {
+  popupImg.src = link;
+  popupImg.alt =  name;
+  popupCaption.textContent = name;
+  openPopup(popupBigImg);
+  };
 
-renderList(initialCards);
 formNewLocationPopup.addEventListener('submit', submitFormNewLocationPopup);//слушатель кнопки сохранения попапа новой локации
 formEditPopup.addEventListener('submit', submitFormEditPopup);//слушатель кнопки сохранения попапа редактирования
 
-//закрытие попапов при клике по оверлэй или крестику
+// закрытие попапов при клике по оверлэй или крестику
 allPopups.forEach((popup) => {
     popup.addEventListener('mousedown', (evt) => {
         if (evt.target === evt.currentTarget) {
@@ -152,4 +106,11 @@ allPopups.forEach((popup) => {
           closePopup(popup)
         };
     });
+});
+
+// отрисовка начальных карточек
+initialCards.forEach((item) => {
+  const newCard = new Card(item, '#element-template', handleOpenViewPopup);
+  const cardElement = newCard.generateCard();
+  locationContainer.append(cardElement);
 });
