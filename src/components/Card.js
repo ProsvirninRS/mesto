@@ -1,10 +1,10 @@
 class Card {
 
-  constructor(item, templateSelector, handleOpenViewPopup) {
+  constructor(item, templateSelector, handleCardClick) {
     this._name = item.name;
     this._link = item.link;
     this._templateSelector = templateSelector;
-    this._handleOpenViewPopup = handleOpenViewPopup;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -28,7 +28,7 @@ class Card {
   }
 
   _handleImageClick = () => {
-    this._handleOpenViewPopup({name: this._name, link: this._link});
+    this._handleCardClick({name: this._name, link: this._link});
   };
 
   _setEventListeners() {

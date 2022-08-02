@@ -1,4 +1,5 @@
 class FormValidator {
+
   constructor(formConfig , formElement) {
     this._formSelector = formConfig.formSelector;
     this._inputSelector = formConfig.inputSelector;
