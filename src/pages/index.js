@@ -1,6 +1,5 @@
 import './index.css'; // добавьте импорт главного файла стилей
-import { buttonOpenEdit, buttonAddLocation, inputNameProfile, inputDecriptionProfile,
-   locationContainer, formNewLocation, formEdit } from '../utils/constants.js'
+import { buttonOpenEdit, buttonAddLocation, formNewLocation, formEdit } from '../utils/constants.js'
 import { initialCards } from '../utils/initialCards.js';
 import { Card } from '../components/Card.js';
 import { FormValidator  , formConfig } from '../components/FormValidator.js';
@@ -19,9 +18,7 @@ const cardSection = new Section({
   items: initialCards,
   renderer: (item) =>
     {
-      const card = new Card(item, '#element-template', handleCardClick)
-      const cardElement = card.generateCard();
-      cardSection.addItem(cardElement);
+      cardSection.addItem(createCard(item));
     },
   containerSelector: '.elements'
 });
@@ -38,7 +35,7 @@ const popupWithFormLocation = new PopupWithForm({popupSelector: '.popup_type_new
       name: inputValues.title,
       link: inputValues.url
     };
-    locationContainer.prepend(createCard(newLocationInfo)); //вставили содержимое в начале контейнера
+    cardSection.prependItem(createCard(newLocationInfo))
   }
 });
 popupWithFormLocation.setEventListeners();
@@ -74,8 +71,7 @@ function createCard(item) {
 //функция открытия попапа редактирования
 buttonOpenEdit.addEventListener('click', () => {
   const profile = userInfo.getUserInfo();
-  inputNameProfile.value = profile.name;
-  inputDecriptionProfile.value = profile.description;
+  popupWithFormProfile.setInputValues(profile);
   formEditValid.resetFormValidation();
   popupWithFormProfile.open();
 });
@@ -83,7 +79,6 @@ buttonOpenEdit.addEventListener('click', () => {
 //слушатель кнопки добавить локацию
 //функция открытия попапа новая локация
 buttonAddLocation.addEventListener('click', function () {
-  formNewLocation.reset();
   formNewLocationValid.resetFormValidation();
   popupWithFormLocation.open();
 });
