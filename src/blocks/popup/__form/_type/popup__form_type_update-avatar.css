@@ -1,0 +1,3 @@
+.popup__form_type_update-avatar {
+  grid-template-rows: 111px 27px minmax(32px, max-content) 102px;
+}

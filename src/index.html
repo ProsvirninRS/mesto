@@ -29,7 +29,7 @@
       <p class="footer__copyright">© 2022 Mesto Russia</p>
     </footer>
       <div class="popup popup_type_edit">
-        <div class="popup__container">
+        <div class="popup__container popup__container_size_l">
           <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
           <form class="popup__form popup__form_type_edit" name="edit-form" novalidate>
             <h2 class="popup__title">Редактировать профиль</h2>
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="popup popup_type_new-location">
-        <div class="popup__container">
+        <div class="popup__container popup__container_size_l">
           <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
           <form class="popup__form popup__form_type_new-location" name="new-location-form" novalidate>
             <h2 class="popup__title">Новое место</h2>
@@ -63,13 +63,36 @@
             </figure>
         </div>
       </div>
+      <div class="popup popup_type_confirm">
+        <div class="popup__container popup__container_size_s">
+          <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
+          <form class="popup__form popup__form_type_confirm" name="confirm-form" novalidate>
+            <h2 class="popup__title">Вы уверены?</h2>
+            <button enabled class="popup__save-button" type="submit">Да</button>
+          </form>
+        </div>
+      </div>
+      <div class="popup popup_type_update-avatar">
+        <div class="popup__container popup__container_size_m">
+          <button class="popup__close-button" type="button" aria-label="кнопка закрыть окно"></button>
+          <form class="popup__form popup__form_type_update-avatar" name="new-location-form" novalidate>
+            <h2 class="popup__title">Обновить аватар</h2>
+            <input class="popup__input popup__input_name_url" type="url" name="url" placeholder="Ссылка на картинку" required>
+            <span class="popup__span url-error"></span>
+            <button class="popup__save-button" type="submit">Сохранить</button>
+          </form>
+        </div>
+      </div>
   </div>
   <template id="element-template">
     <article class="element">
       <img class="element__photo">
       <div class="element__title-like-wrapper">
         <h2 class="element__title"></h2>
-        <button class="element__like" type="button" aria-label="кнопка лайк"></button>
+        <div class="element__like-info">
+          <button class="element__like" type="button" aria-label="кнопка лайк"></button>
+          <p class="element__like-counter"></p>
+        </div>
       </div>
       <button class="element__del" type="button" aria-label="кнопка удалить"></button>
     </article>

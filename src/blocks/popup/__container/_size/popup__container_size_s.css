@@ -1,0 +1,9 @@
+.popup__container_size_s {
+  grid-template-rows: 32px minmax(181px, max-content);
+}
+
+@media screen and (max-width: 580px) {
+  .popup__container_size_s {
+    grid-template-rows: 20px minmax(181px, max-content);
+  }
+}

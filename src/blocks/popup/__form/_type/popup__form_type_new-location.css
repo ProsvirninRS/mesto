@@ -1,0 +1,9 @@
+.popup__form_type_new-location {
+  grid-template-rows: 111px 27px minmax(32px, max-content) 27px minmax(32px, max-content) 101px;
+}
+
+@media screen and (max-width: 580px) {
+  .popup__form_type_new-location {
+    grid-template-rows: 122px 27px minmax(32px, max-content) 27px minmax(32px, max-content) 82px;
+  }
+}

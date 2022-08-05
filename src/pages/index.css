@@ -38,3 +38,12 @@
 @import url(../blocks/popup/__figure/popup__figure.css);
 @import url(../blocks/popup/__span/popup__span.css);
 @import url(../blocks/popup/__span/_visible/popup__span_visible.css);
+@import url(../blocks/element/__like-counter/element__like-counter.css);
+@import url(../blocks/element/__like-info/element__like-info.css);
+@import url(../blocks/popup/__container/_size/popup__container_size_l.css);
+@import url(../blocks/popup/__container/_size/popup__container_size_m.css);
+@import url(../blocks/popup/__container/_size/popup__container_size_s.css);
+@import url(../blocks/popup/__form/_type/popup__form_type_confirm.css);
+@import url(../blocks/popup/__form/_type/popup__form_type_edit.css);
+@import url(../blocks/popup/__form/_type/popup__form_type_new-location.css);
+@import url(../blocks/popup/__form/_type/popup__form_type_update-avatar.css);
