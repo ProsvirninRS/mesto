@@ -1,6 +1,5 @@
 import './index.css'; // добавьте импорт главного файла стилей
 import { buttonOpenEdit, buttonAddLocation, formNewLocation, formEdit } from '../utils/constants.js'
-import { initialCards } from '../utils/initialCards.js';
 import { Card } from '../components/Card.js';
 import { FormValidator  , formConfig } from '../components/FormValidator.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
@@ -17,8 +16,8 @@ const handleCardClick = ({ name , link }) => {
 
 // Экземпляр класса отрисовки карточек на странице
 const cardSection = new Section({
-  renderer: (card) => {
-    cardSection.prependItem(createCard(card));
+  renderer: (item) => {
+    cardSection.prependItem(createCard(item));
    },
   containerSelector: '.elements'
 });
@@ -47,12 +46,12 @@ const userInfo = new UserInfo({
 // popupWithFormLocation.setEventListeners();
 
 // Экземпляр класса попапа редактирования данных о пользователе
-// const popupWithFormProfile = new PopupWithForm({popupSelector: '.popup_type_edit',
-//   handleFormSubmit: ({name, description}) => {
-//     userInfo.setUserInfo({name, description});
-//   }
-// });
-// popupWithFormProfile.setEventListeners();
+const popupWithFormProfile = new PopupWithForm({popupSelector: '.popup_type_edit',
+  handleFormSubmit: ({name, description}) => {
+    userInfo.setUserInfo({name, description});
+  }
+});
+popupWithFormProfile.setEventListeners();
 
 // Экземпляр класса попапа большой картинки
 const popupWithImage = new PopupWithImage({popupSelector: '.popup_type_big-img'});
@@ -128,7 +127,7 @@ Promise.all([api.getInitialProfile(), api.getInitialCards()])
     // cardSection.renderItems(res[1]);
 
     // cards.reverse()
-    cardSection.renderItems(cards);
+    cardSection.renderItems(cards.reverse());
   })
   .catch((err) => console.log(err));
 

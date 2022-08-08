@@ -6,6 +6,7 @@ class Card {
     this._cardItem = item;
     this._name = item.name;
     this._link = item.link;
+    this._count = item.likes;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     // this._handleClickDeleteCard = handleClickDeleteCard;

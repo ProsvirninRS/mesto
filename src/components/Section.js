@@ -12,7 +12,7 @@ class Section {
         name: item.name,
         link: item.link
       }
-      this._renderer(this._card);
+      this._renderer(item);
     });
   }
 

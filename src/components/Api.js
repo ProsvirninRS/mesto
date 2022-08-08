@@ -32,6 +32,28 @@ class Api {
           return Promise.reject(`Ошибка: ${res.status}`);
       })
   }
+
+  patchProfile(name, about) {
+    return fetch(`${this._baseUrl}users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: `${this._token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: `${name}`,
+        about: `${about}`
+      })
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+        return Promise.reject(`Ошибка: ${res.status}`);
+    })
+  }
+
+
 }
 
   // другие методы работы с API
