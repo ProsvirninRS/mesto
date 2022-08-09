@@ -8,10 +8,6 @@ class Section {
 
   renderItems(items) {
     items.forEach((item) => {
-      this._card = {
-        name: item.name,
-        link: item.link
-      }
       this._renderer(item);
     });
   }

@@ -8,8 +8,8 @@ class PopupWithConfirm extends Popup {
     this._buttonConfirm = this._popup.querySelector('.popup__save-button');
   }
 
-  openPopup(removedCard, idDeletedCard) {
-    super.openPopup();
+  open(removedCard, idDeletedCard) {
+    super.open();
     this._removedCard = removedCard;
     this._idDeletedCard = idDeletedCard;
   }
@@ -18,8 +18,8 @@ class PopupWithConfirm extends Popup {
     super.setEventListeners();
     this._buttonConfirm.addEventListener('click', (evt) => {
       evt.preventDefault();
-      this._handleConfirm(this._removedCard, this._idDeletedCard);
-    });
+      this._handleConfirm({removedCard: this._removedCard, idDeletedCard: this._idDeletedCard});
+    })
   }
 }
 

@@ -1,15 +1,18 @@
 class Card {
 
-  // , handleClickDeleteCard, addLike, removeLike, userId
-
-  constructor(item, templateSelector, handleCardClick) {
+  constructor(item, templateSelector, handleCardClick, handleClickDeleteCard, addLike, removeLike, userId) {
     this._cardItem = item;
     this._name = item.name;
     this._link = item.link;
-    this._count = item.likes;
+    this._count = item.likes.length;
+    this._ownerId = item.owner._id;
+    this._cardId = item._id
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
-    // this._handleClickDeleteCard = handleClickDeleteCard;
+    this._handleClickDeleteCard = handleClickDeleteCard;
+    this._addLike = addLike;
+    this._removeLike = removeLike;
+    this._userId = userId;
   }
 
   _getTemplate() {
@@ -41,7 +44,7 @@ class Card {
       this._likeListItem();
     });
     this._del.addEventListener('click', () => {
-      // this._handleClickDeleteCard(this._cardItem, this._cardId);
+      this._handleClickDeleteCard(this._element, this._cardId);
     });
     this._photo.addEventListener('click', () => {
       this._handleImageClick();
@@ -55,13 +58,13 @@ class Card {
     this._like = this._element.querySelector('.element__like');
     this._photo = this._element.querySelector('.element__photo');
     this._title = this._element.querySelector('.element__title');
-    this._count = this._element.querySelector('.element__like-counter');
+    this._likeCounter = this._element.querySelector('.element__like-counter');
 
     this._setEventListeners();
 
-    // if (this._ownerId !== this._userId) {
-    //   this._deleteBtn.classList.add('element__del_hide');
-    // }
+    if (this._ownerId !== this._userId) {
+      this._del.classList.add('element__del_hide');
+    }
 
     // if (this._likes.some((item) => item['_id'] === this._userId)) {
     //   this._likeBtn.classList.add('element__del_active')
@@ -70,6 +73,7 @@ class Card {
     this._title.textContent = this._name;
     this._photo.src = this._link;
     this._photo.alt = this._name;
+    this._likeCounter.textContent = this._count;
 
     // this._renderLikesCounter(this._likes, this._likeCounter)
 
