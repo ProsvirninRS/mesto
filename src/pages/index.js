@@ -20,8 +20,11 @@ const handleClickDeleteCard = (removedCard, idDeletedCard) => {
 }
 
 //колбэк клика на
-const addLike = () => {
-
+const addLike = (cardId) => {
+  api.likeCard(cardId)
+    .then((data) => newCard.remove())
+    .then(() => popupDeleteCard.close())
+    .catch((err) => console.log(err));
 }
 
 //колбэк клика на
@@ -71,6 +74,7 @@ formUpdateAvatarValid.enableValidation();
 
 // Функция создания новой карточки для вставки в DOM
 function createCard(item) {
+
   const newCard = new Card(item, '#element-template', handleCardClick,  handleClickDeleteCard,
   addLike, removeLike, '6d28275a3bd391251838bee0');
   const cardElement = newCard.generateCard();

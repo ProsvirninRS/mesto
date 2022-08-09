@@ -108,6 +108,41 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
+
+  likeCard(cardId) {
+    this._cardId = cardId;
+    return fetch(`${this._baseUrl}cards/${this._cardId}/likes`, {
+      method: 'PUT',
+      headers: {
+        authorization: `${this._token}`,
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+        return Promise.reject(`Ошибка: ${res.status}`);
+    })
+  }
+
+  deleteLikeCard(cardId) {
+    this._cardId = cardId;
+    return fetch(`${this._baseUrl}cards/${this._cardId}/likes`, {
+      method: 'DELETE',
+      headers: {
+        authorization: `${this._token}`,
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+        return Promise.reject(`Ошибка: ${res.status}`);
+    })
+  }
+
 }
 
 const apiConfig = {

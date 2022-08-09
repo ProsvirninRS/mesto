@@ -4,6 +4,7 @@ class Card {
     this._cardItem = item;
     this._name = item.name;
     this._link = item.link;
+    this._likes = item.likes;
     this._count = item.likes.length;
     this._ownerId = item.owner._id;
     this._cardId = item._id
@@ -27,12 +28,8 @@ class Card {
       return cardElement;
   }
 
-  _likeListItem() {
-    this._like.classList.toggle('element__like_active');
-  }
-
-  // _removeListItem() {
-  //   this._element.remove();
+  // _likeListItem() {
+  //   this._like.classList.toggle('element__like_active');
   // }
 
   _handleImageClick = () => {
@@ -41,8 +38,11 @@ class Card {
 
   _setEventListeners() {
     this._like.addEventListener('click', () => {
-      this._likeListItem();
-    });
+      if (this._likes.some((item) => item['_id'] === this._userId))
+        { this._removeLike(this._cardId, ) }
+      else { this._addLike(this._cardId) }
+      }
+    );
     this._del.addEventListener('click', () => {
       this._handleClickDeleteCard(this._element, this._cardId);
     });
@@ -66,9 +66,9 @@ class Card {
       this._del.classList.add('element__del_hide');
     }
 
-    // if (this._likes.some((item) => item['_id'] === this._userId)) {
-    //   this._likeBtn.classList.add('element__del_active')
-    // }
+    if (this._likes.some((item) => item['_id'] === this._userId)) {
+      this._like.classList.add('element__like_active')
+    }
 
     this._title.textContent = this._name;
     this._photo.src = this._link;
@@ -80,9 +80,6 @@ class Card {
     return this._element;
   }
 
-  isOwner() {
-
-  }
 };
 
 export {Card};
