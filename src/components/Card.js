@@ -1,6 +1,7 @@
 class Card {
   constructor(item, templateSelector, handleCardClick, handleClickDeleteCard,
      userId, handleLikeClick, isMyCard) {
+
       this._cardItem = item;
       this._name = item.name;
       this._link = item.link;
@@ -14,6 +15,7 @@ class Card {
       this._isLiked = isMyCard(this._likes)
       this._userId = userId;
       this._handleLikeClick = handleLikeClick;
+
   }
 
   _getTemplate() {
@@ -28,10 +30,6 @@ class Card {
       return cardElement;
   }
 
-  // _likeListItem() {
-  //   this._like.classList.toggle('element__like_active');
-  // }
-
   _handleImageClick = () => {
     this._handleCardClick({name: this._name, link: this._link});
   };
@@ -39,10 +37,7 @@ class Card {
   _setEventListeners() {
     this._like.addEventListener('click', () => {
       this._handleLikeClick(this, this._cardId);
-      // if (this._likes.some((item) => item._id === this._userId))
-      //   { this._removeLike(this._cardId, this._like, this._likeCounter, this) }
-      // else { this._addLike(this._cardId, this._like, this._likeCounter, this) }
-      }
+    }
     );
     this._del.addEventListener('click', () => {
       this._handleClickDeleteCard(this._element, this._cardId);
@@ -50,16 +45,6 @@ class Card {
     this._photo.addEventListener('click', () => {
       this._handleImageClick();
     });
-  }
-
-  isLiked() {
-    if (this._likes.some((item) => item._id === this._userId)) {
-      this._like.classList.add('element__like_active');
-      return this._liked = true;
-    } else {
-      this._like.classList.remove('element__like_active');
-      return this._liked = false;
-    }
   }
 
   like(data) {
@@ -77,8 +62,6 @@ class Card {
     this._title = this._element.querySelector('.element__title');
     this._likeCounter = this._element.querySelector('.element__like-counter');
 
-
-
     if (this._ownerId !== this._userId) {
       this._del.classList.add('element__del_hide');
     } else {
@@ -87,17 +70,15 @@ class Card {
 
     if (this._isLiked) {
       this._like.classList.add('element__like_active');
+    } else {
+      this._like.classList.remove('element__like_active');
     }
-
-    this.isLiked();
-
 
     this._title.textContent = this._name;
     this._photo.src = this._link;
     this._photo.alt = this._name;
     this._likeCounter.textContent = this._count;
 
-    // this._renderLikesCounter(this._likes, this._likeCounter)
     this._setEventListeners();
     return this._element;
   }
