@@ -9,28 +9,8 @@ import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api, apiConfig} from '../components/Api.js';
 
-// Колбэк открытия большой картинки
-const handleCardClick = ({ name , link }) => {
-  popupWithImage.open({ name, link });
-  };
 
-  //колбэк клика на кнопку удаления карточки
-const handleClickDeleteCard = (removedCard, idDeletedCard) => {
-  popupDeleteCard.open(removedCard, idDeletedCard)
-}
 
-//колбэк клика на
-const addLike = (cardId) => {
-  api.likeCard(cardId)
-    .then((data) => newCard.remove())
-    .then(() => popupDeleteCard.close())
-    .catch((err) => console.log(err));
-}
-
-//колбэк клика на
-const removeLike = () => {
-
-}
 
 // Экземпляр класса отрисовки карточек на странице
 const cardSection = new Section({
@@ -48,7 +28,7 @@ const cardSection = new Section({
 const userInfo = new UserInfo({
   avatarSelector: '.profile__avatar',
   nameSelector: '.profile__name',
-  descriptionSelector: '.profile__description'
+  descriptionSelector: '.profile__description',
 });
 
 
@@ -72,14 +52,7 @@ formNewLocationValid.enableValidation();
 const formUpdateAvatarValid = new FormValidator(formConfig, formUpdateAvatar);
 formUpdateAvatarValid.enableValidation();
 
-// Функция создания новой карточки для вставки в DOM
-function createCard(item) {
 
-  const newCard = new Card(item, '#element-template', handleCardClick,  handleClickDeleteCard,
-  addLike, removeLike, '6d28275a3bd391251838bee0');
-  const cardElement = newCard.generateCard();
-  return cardElement
-}
 
 //слушатель кнопки редактировать
 //функция открытия попапа редактирования
@@ -137,6 +110,7 @@ const api = new Api(apiConfig);
 Promise.all([api.getInitialProfile(), api.getInitialCards()])
   .then(([serverProfile, serverCards]) => {
     userInfo.setUserInfo(serverProfile);
+      console.log('12', userInfo);
     cardSection.renderItems(serverCards.reverse());
   })
   .catch((err) => console.log(err));
@@ -247,3 +221,59 @@ const popupDeleteCard = new PopupWithConfirm ({
   }
 })
 popupDeleteCard.setEventListeners();
+
+
+// Функция создания новой карточки для вставки в DOM
+function createCard(item) {
+  // addLike, removeLike,
+  const newCard = new Card(item, '#element-template', handleCardClick,  handleClickDeleteCard,
+   userInfo._id, handleLikeClick, isMyCard);
+  const cardElement = newCard.generateCard();
+  return cardElement
+}
+
+
+const isMyCard = (parametr) => {
+  return parametr.some((item) => {return userInfo._id === item._id})
+
+}
+
+
+
+// Колбэк открытия большой картинки
+const handleCardClick = ({ name , link }) => {
+  popupWithImage.open({ name, link });
+  };
+
+  //колбэк клика на кнопку удаления карточки
+const handleClickDeleteCard = (removedCard, idDeletedCard) => {
+  popupDeleteCard.open(removedCard, idDeletedCard)
+}
+
+// //колбэк клика добавить лайк
+// const addLike = (cardId, like, likeCounter, card) => {
+//   api.likeCard(cardId)
+//     .then((data) => card.addUpdateLike(data, like, likeCounter))
+//     .catch((err) => console.log(err));
+// }
+
+// //колбэк клика на убрать лайк
+// const removeLike = (cardId, like, likeCounter, card) => {
+//   api.deleteLikeCard(cardId)
+//     .then((data) => card.removeUpdateLike(data, like, likeCounter))
+//     .catch((err) => console.log(err));
+// }
+
+const handleLikeClick = (card, cardId) => {
+  if (!card._isLiked) {
+    api.likeCard(cardId)
+      .then((data) => card.like(data))
+      .catch((err) => console.log(err));
+  }
+  else {
+    api.deleteLikeCard(cardId)
+      .then((data) => card.like(data))
+      .catch((err) => console.log(err));
+  }
+
+}
