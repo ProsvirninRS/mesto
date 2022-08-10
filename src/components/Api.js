@@ -5,6 +5,7 @@ class Api {
     this._token = token;
   }
 
+  // Получение данных юзера
   getInitialProfile() {
     return fetch(`${this._baseUrl}users/me`, {
       headers: {
@@ -18,7 +19,7 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`)
       })
   }
-
+  // Получение начальных карт с сервера
   getInitialCards() {
     return fetch(`${this._baseUrl}cards`, {
       headers: {
@@ -33,6 +34,7 @@ class Api {
       })
   }
 
+  // Обновить данные о пользователе
   updateUserData({name, description}) {
     return fetch(`${this._baseUrl}users/me`, {
       method: 'PATCH',
@@ -52,7 +54,7 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
-
+  // Обновить аватар пользователя
   updateUserAvatar({url}) {
     return fetch(`${this._baseUrl}users/me/avatar`, {
       method: 'PATCH',
@@ -71,7 +73,7 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
-
+  // Добавить новую карточку
   addNewCard({name, link}) {
     return fetch(`${this._baseUrl}cards`, {
       method: 'POST',
@@ -91,7 +93,7 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
-
+  // Удалить карточку
   deleteCard(idDeletedCard) {
     this._cardId = idDeletedCard;
     return fetch(`${this._baseUrl}cards/${this._cardId}`, {
@@ -108,7 +110,7 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
-
+  // Поставить лайк
   likeCard(cardId) {
     this._cardId = cardId;
     return fetch(`${this._baseUrl}cards/${this._cardId}/likes`, {
@@ -126,6 +128,7 @@ class Api {
     })
   }
 
+  // Снять лайк
   deleteLikeCard(cardId) {
     this._cardId = cardId;
     return fetch(`${this._baseUrl}cards/${this._cardId}/likes`, {

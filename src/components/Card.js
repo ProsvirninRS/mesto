@@ -1,5 +1,4 @@
 class Card {
-  //addLike, removeLike,
   constructor(item, templateSelector, handleCardClick, handleClickDeleteCard,
      userId, handleLikeClick, isMyCard) {
       this._cardItem = item;
@@ -13,8 +12,6 @@ class Card {
       this._handleCardClick = handleCardClick;
       this._handleClickDeleteCard = handleClickDeleteCard;
       this._isLiked = isMyCard(this._likes)
-      // this._addLike = addLike;
-      // this._removeLike = removeLike;
       this._userId = userId;
       this._handleLikeClick = handleLikeClick;
   }
@@ -53,20 +50,6 @@ class Card {
     this._photo.addEventListener('click', () => {
       this._handleImageClick();
     });
-  }
-
-  addUpdateLike(data) {
-    this._like.classList.add('element__like_active');
-    console.log('add', data.likes.length);
-    this._likeCounter.textContent = data.likes.length;
-    this._liked = !this._liked;
-  }
-
-  removeUpdateLike(data) {
-    this._like.classList.remove('element__like_active');
-    console.log('remove', data.likes.length);
-    this._likeCounter.textContent = data.likes.length;
-    this._liked = !this._liked;
   }
 
   isLiked() {
