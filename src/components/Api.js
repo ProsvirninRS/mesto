@@ -6,6 +6,13 @@ class Api {
     this._contentType = contentType;
   }
 
+  _getResponseData(res) {
+    if (!res.ok) {
+        return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+}
+
   // Получение данных юзера
   getInitialProfile() {
     return fetch(`${this._baseUrl}users/me`, {
@@ -14,10 +21,7 @@ class Api {
       }
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`)
+       return this._getResponseData(res);
       })
   }
   // Получение начальных карт с сервера
@@ -28,10 +32,7 @@ class Api {
       }
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-          return Promise.reject(`Ошибка: ${res.status}`);
+        return this._getResponseData(res);
       })
   }
 
@@ -49,10 +50,7 @@ class Api {
       })
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
   // Обновить аватар пользователя
@@ -68,10 +66,7 @@ class Api {
       })
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
   // Добавить новую карточку
@@ -88,10 +83,7 @@ class Api {
       })
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
   // Удалить карточку
@@ -105,10 +97,7 @@ class Api {
       },
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
   // Поставить лайк
@@ -122,10 +111,7 @@ class Api {
       },
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
 
@@ -140,13 +126,9 @@ class Api {
       },
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
-
 }
 
 export {Api}
