@@ -15,6 +15,7 @@ class UserInfo {
 
   setUserInfo(res) {
     this._avatar.src = res.avatar;
+    this._avatar.alt = `Фотография ${res.name}`;
     this._nameProfile.textContent = res.name;
     this._descriptionProfile.textContent = res.about;
     this._id = res._id;

@@ -1,8 +1,9 @@
 class Api {
 
-  constructor({baseUrl, token}) {
+  constructor({baseUrl, token, contentType}) {
     this._baseUrl = baseUrl;
     this._token = token;
+    this._contentType = contentType;
   }
 
   // Получение данных юзера
@@ -40,7 +41,7 @@ class Api {
       method: 'PATCH',
       headers: {
         authorization: `${this._token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': `${this._contentType}`,
       },
       body: JSON.stringify({
         name: `${name}`,
@@ -60,7 +61,7 @@ class Api {
       method: 'PATCH',
       headers: {
         authorization: `${this._token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': `${this._contentType}`,
       },
       body: JSON.stringify({
         avatar: `${url}`
@@ -79,7 +80,7 @@ class Api {
       method: 'POST',
       headers: {
         authorization: `${this._token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': `${this._contentType}`,
       },
       body: JSON.stringify({
         name: `${name}`,
@@ -100,7 +101,7 @@ class Api {
       method: 'DELETE',
       headers: {
         authorization: `${this._token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': `${this._contentType}`,
       },
     })
     .then(res => {
@@ -117,7 +118,7 @@ class Api {
       method: 'PUT',
       headers: {
         authorization: `${this._token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': `${this._contentType}`,
       },
     })
     .then(res => {
@@ -135,7 +136,7 @@ class Api {
       method: 'DELETE',
       headers: {
         authorization: `${this._token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': `${this._contentType}`,
       },
     })
     .then(res => {
@@ -148,9 +149,4 @@ class Api {
 
 }
 
-const apiConfig = {
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-46/',
-  token: '99d4074a-8cff-4dcb-bc43-c6fec3e71a0e'
-};
-
-export {Api, apiConfig}
+export {Api}

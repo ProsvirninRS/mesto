@@ -10,12 +10,11 @@ class PopupWithForm extends Popup {
     this._textContent = this._submitBtn.textContent;
   }
 
-  loading(bool) {
-    if (bool) {
-      if (this._textContent === 'Сохранить') {this._submitBtn.textContent = 'Сохранение...'}
-      else {this._submitBtn.textContent = 'Создание...'}}
-    else {  this._submitBtn.textContent = this._textContent }
-  }
+  renderLoading(isLoading) {
+    if (isLoading) {this._submitBtn.textContent = 'Сохранение...'}
+      else {this._submitBtn.textContent = 'Сохранить'}
+    }
+
 
   _getInputValues() {
     this._formValues = {};
@@ -30,7 +29,7 @@ class PopupWithForm extends Popup {
     this._form = this._popup.querySelector('.popup__form');
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this.loading(true);
+      this.renderLoading(true);
       this._handleFormSubmit(this._getInputValues());
     });
   }

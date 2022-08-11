@@ -1,5 +1,6 @@
 import './index.css'; // добавьте импорт главного файла стилей
-import { buttonOpenEdit, buttonAddLocation, buttonEditAvatar, formNewLocation, formEdit, formUpdateAvatar} from '../utils/constants.js'
+import { buttonOpenEdit, buttonAddLocation, buttonEditAvatar, formNewLocation,
+  formEdit, formUpdateAvatar, apiConfig} from '../utils/constants.js'
 import { Card } from '../components/Card.js';
 import { FormValidator  , formConfig } from '../components/FormValidator.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
@@ -7,7 +8,7 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
-import { Api, apiConfig} from '../components/Api.js';
+import { Api} from '../components/Api.js';
 
 
 //Создание класса API
@@ -51,37 +52,15 @@ formNewLocationValid.enableValidation();
 const formUpdateAvatarValid = new FormValidator(formConfig, formUpdateAvatar);
 formUpdateAvatarValid.enableValidation();
 
-//слушатель кнопки редактировать
-//функция открытия попапа редактирования
-buttonOpenEdit.addEventListener('click', () => {
-  const profile = userInfo.getUserInfo();
-  popupWithFormProfile.setInputValues(profile);
-  formEditValid.resetFormValidation();
-  popupWithFormProfile.open();
-});
-
-//слушатель кнопки добавить локацию
-//функция открытия попапа новая локация
-buttonAddLocation.addEventListener('click', function () {
-  formNewLocationValid.resetFormValidation();
-  popupWithFormLocation.open();
-});
-
-//слушатель кнопки заменить аватар
-//функция открытия попапа заменить аватар
-buttonEditAvatar.addEventListener('click', function () {
-  formNewLocationValid.resetFormValidation();
-  popupEditAvatar.open();
-});
-
 // Экземпляр класса попапа замены аватара
 const popupEditAvatar = new PopupWithForm({popupSelector: '.popup_type_update-avatar',
   handleFormSubmit: ({url}) => {
       api.updateUserAvatar({url})
-        .then((res) => userInfo.setUserInfo(res))
-        .then(() => popupEditAvatar.close())
+        .then((res) => {userInfo.setUserInfo(res);
+                        popupEditAvatar.close();
+        })
         .catch((err) => console.log(err))
-        .finally(() => popupEditAvatar.loading(false))
+        .finally(() => popupEditAvatar.renderLoading(false))
   }
 });
 popupEditAvatar.setEventListeners();
@@ -90,10 +69,11 @@ popupEditAvatar.setEventListeners();
 const popupWithFormProfile = new PopupWithForm({popupSelector: '.popup_type_edit',
   handleFormSubmit: ({name, description}) => {
       api.updateUserData({name, description})
-        .then((res) => userInfo.setUserInfo(res))
-        .then(() => popupWithFormProfile.close())
+        .then((res) => {userInfo.setUserInfo(res);
+                        popupWithFormProfile.close();
+        })
         .catch((err) => console.log(err))
-        .finally(() => popupWithFormProfile.loading(false))
+        .finally(() => popupWithFormProfile.renderLoading(false))
   }
 });
 popupWithFormProfile.setEventListeners();
@@ -107,11 +87,11 @@ const popupWithFormLocation = new PopupWithForm({popupSelector: '.popup_type_new
     };
     api.addNewCard(newLocationInfo)
       .then((data) => {
-        cardSection.prependItem(createCard(data))
+        cardSection.prependItem(createCard(data));
+        popupWithFormLocation.close();
       })
-      .then(() => popupWithFormLocation.close())
       .catch((err) => console.log(err))
-      .finally(() => popupWithFormLocation.loading(false))
+      .finally(() => popupWithFormLocation.renderLoading(false))
   }
 });
 popupWithFormLocation.setEventListeners();
@@ -121,8 +101,9 @@ const popupDeleteCard = new PopupWithConfirm ({
   popupSelector: '.popup_type_confirm',
   handleConfirm: ({removedCard, idDeletedCard}) => {
     api.deleteCard(idDeletedCard)
-      .then(() => removedCard.remove())
-      .then(() => popupDeleteCard.close())
+      .then(() => {removedCard.remove();
+                   popupDeleteCard.close();
+      })
       .catch((err) => console.log(err));
   }
 })
@@ -132,14 +113,9 @@ popupDeleteCard.setEventListeners();
 // Функция создания новой карточки для вставки в DOM
 function createCard(item) {
   const newCard = new Card(item, '#element-template', handleCardClick,  handleClickDeleteCard,
-   userInfo._id, handleLikeClick, isMyCard);
+   userInfo._id, handleLikeClick);
   const cardElement = newCard.generateCard();
   return cardElement
-}
-
-// Колбэк проверки стоит лайк юзера на карточке или нет
-const isMyCard = (cards) => {
-  return cards.some((item) => {return userInfo._id === item._id})
 }
 
 // Колбэк открытия большой картинки
@@ -164,5 +140,27 @@ const handleLikeClick = (card, cardId) => {
       .then((data) => card.like(data))
       .catch((err) => console.log(err));
   }
-
 }
+
+//слушатель кнопки редактировать
+//функция открытия попапа редактирования
+buttonOpenEdit.addEventListener('click', () => {
+  const profile = userInfo.getUserInfo();
+  popupWithFormProfile.setInputValues(profile);
+  formEditValid.resetFormValidation();
+  popupWithFormProfile.open();
+});
+
+//слушатель кнопки добавить локацию
+//функция открытия попапа новая локация
+buttonAddLocation.addEventListener('click', function () {
+  formNewLocationValid.resetFormValidation();
+  popupWithFormLocation.open();
+});
+
+//слушатель кнопки заменить аватар
+//функция открытия попапа заменить аватар
+buttonEditAvatar.addEventListener('click', function () {
+  formNewLocationValid.resetFormValidation();
+  popupEditAvatar.open();
+});

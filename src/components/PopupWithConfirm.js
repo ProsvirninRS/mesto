@@ -5,7 +5,7 @@ class PopupWithConfirm extends Popup {
   constructor({popupSelector, handleConfirm}) {
     super(popupSelector);
     this._handleConfirm = handleConfirm;
-    this._buttonConfirm = this._popup.querySelector('.popup__save-button');
+    this._form = this._popup.querySelector('.popup__form_type_confirm');
   }
 
   open(removedCard, idDeletedCard) {
@@ -16,7 +16,7 @@ class PopupWithConfirm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._buttonConfirm.addEventListener('click', (evt) => {
+    this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._handleConfirm({removedCard: this._removedCard, idDeletedCard: this._idDeletedCard});
     })

@@ -1,6 +1,6 @@
 class Card {
   constructor(item, templateSelector, handleCardClick, handleClickDeleteCard,
-     userId, handleLikeClick, isMyCard) {
+     userId, handleLikeClick) {
 
       this._cardItem = item;
       this._name = item.name;
@@ -12,10 +12,13 @@ class Card {
       this._templateSelector = templateSelector;
       this._handleCardClick = handleCardClick;
       this._handleClickDeleteCard = handleClickDeleteCard;
-      this._isLiked = isMyCard(this._likes)
       this._userId = userId;
       this._handleLikeClick = handleLikeClick;
 
+  }
+  // Проверка есть ли лайк юзера на карточке
+  isMyCard() {
+    return this._likes.some((item) => {return this._userId === item._id})
   }
 
   _getTemplate() {
@@ -67,6 +70,8 @@ class Card {
     } else {
       this._del.classList.remove('element__del_hide');
     }
+
+    this._isLiked = this.isMyCard();
 
     if (this._isLiked) {
       this._like.classList.add('element__like_active');
